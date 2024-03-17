@@ -14,6 +14,11 @@
   --qwik-dirty-black: #1d2033;
   --qwik-dark-background: #151934;
   --qwik-dark-text: #ffffff;
+  --primary: #3E6680;
+  --gray: #E0E0E2;
+  --indicator: #9E1946;
+  --secondary: #4C9F70;
+  --dark: #030027;
 }
 
 html {
