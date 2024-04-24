@@ -1,0 +1,63 @@
+
+.scale {
+    display: flex;
+    height: min-content;
+    gap: 40px;
+}
+
+
+.container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 20px;
+    height: 36px;
+    width: fit-content;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.placeholder {
+    position: absolute;
+    border: solid transparent;
+    height: fit-content;
+    border-width: 0px;
+    border-top-width: calc((36px - 20px)/2 );
+    border-bottom-width: calc((36px - 20px)/2);
+    padding-left: 44px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    background-color: var(--gray);
+    border-radius: 50%;
+    border-width: 3px;
+    border-color: var(--primary);
+    border-style: solid;
+}
+
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+
+.container input:checked ~ .checkmark {
+    background-color: var(--primary);
+  }
+
+ 
