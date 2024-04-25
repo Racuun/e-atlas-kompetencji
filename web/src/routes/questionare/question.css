@@ -1,0 +1,8 @@
+.question {
+    display: grid;
+    row-gap: 10px;
+    margin: 30px;
+
+    justify-items: center;
+}
+
