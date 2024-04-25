@@ -1,0 +1,7 @@
+{
+  "name": "e-atlas-kompetencji",
+  "private": true,
+  "workspaces": [
+    "database/*", "web/*"
+  ]
+}
