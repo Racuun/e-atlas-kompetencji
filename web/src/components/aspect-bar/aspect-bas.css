@@ -1,0 +1,35 @@
+.container {
+    display: grid;
+    grid-template-columns: [first] min-content [line2] 50px [line3] minmax(0px, 50px) [end];
+}
+
+.bar {
+    grid-column: 1;
+
+    height: 40px;
+    background-color: var(--primary);  
+
+    user-select: none;
+}
+
+.label {
+    grid-column: span 3;
+    grid-row: 2;
+    width: fit-content;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: small;
+    font-weight: 600;
+    color: grey;
+}
+
+.valueDisplay {
+    grid-column: 2;
+    justify-self: center;
+    align-self: center;
+
+    font-size: large;
+    font-weight: 500;
+    color: var(--primary);
+}
