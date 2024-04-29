@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_atlas_definicjas",
+  "info": {
+    "displayName": "definicja",
+    "icon": "bulletList",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "opis": {
+      "type": "string",
+      "required": true
+    },
+    "poziom": {
+      "type": "integer",
+      "required": true,
+      "min": 1,
+      "max": 9,
+      "default": 5
+    }
+  }
+}
