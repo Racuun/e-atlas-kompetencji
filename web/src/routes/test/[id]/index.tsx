@@ -1,7 +1,7 @@
 import { component$, useStylesScoped$ } from '@builder.io/qwik';
 import { Scale } from '~/components/scale/scale';
 import questionStyles from './question.css?inline'
-import { Form, routeAction$, routeLoader$, useNavigate } from '@builder.io/qwik-city';
+import { Form, routeAction$, routeLoader$, useLocation, useNavigate } from '@builder.io/qwik-city';
 
 export const useSkillsData = routeLoader$(async ({params, query}) => {
   const x8 :boolean = query.has('x8');
@@ -43,26 +43,30 @@ export default component$(() => {
   
   const newTab = useNavigate();
 
-  
+  const locattion = useLocation();
+  const nextPageId = parseInt(locattion.params.id) + 1;
+  const newPageAdrr = (nextPageId > meta.pagination.pageCount) ? '/' : '/test/' + nextPageId;
+  console.log(nextPageId > meta.pagination.pageCount)
+  console.log(newPageAdrr)
 
   return (
     <>
     <Form action={action}>  
     {data.map(({attributes, id}) => (
-      <>
+      <div key={id}>
         {attributes.aspekty.map(({definicje, id}) => (
-          <>
-            {definicje.map(({opis, id, idd})=>(
+          <div key={id}>
+            {definicje.map(({opis, id})=>(
               <div key={id} class='question'>
                 {opis}
                 <Scale id={'data.' + (id-1).toString()} />
               </div>
             ))}
-          </>
+          </div>
         ))}
-      </>
+      </div>
     ))}
-      <button type='submit' onClick$={() => newTab()}>Submit</button>
+      <button type='submit' onClick$={() => newTab(newPageAdrr)}>Submit</button>
     </Form>
     </>
   );
