@@ -26,8 +26,48 @@ export const useSkillsData = routeLoader$(async ({params, query}) => {
   return data;
 })
 
-export const useFillQuestionare = routeAction$( async (answ) => {
-  console.log(answ)
+interface CookieAnswI {
+  data: [{
+    id: number,
+    answ: number[]
+  }]
+}
+
+export const useFillQuestionare = routeAction$( async (_answ, event) => {
+  const cookie = event.cookie;
+  let temp: CookieAnswI;
+  let update: boolean = false;
+
+  const index: number = parseInt(event.params.id);
+
+  console.log('saving!')
+
+  if (cookie.has('answ')) {
+    temp = cookie.get('answ')?.json() as CookieAnswI
+
+    update = (temp.data.length >= index);
+    
+    console.log(temp.data)
+  }
+  console.log(update);
+
+  const record = {
+    id: index,
+    answ: [],
+  }
+
+  for (let i=0; i < _answ.data.length; i++) {
+    record.answ.push(parseInt(_answ.data[i]))
+  }
+
+  if (update) {
+    temp.data[index-1] = record
+  } else {
+    temp = {data: [record]}
+  }
+
+  console.log(temp.data)
+  cookie.set('answ', JSON.stringify(temp))
 })
 
 
@@ -51,7 +91,7 @@ export default component$(() => {
 
   return (
     <>
-    <Form action={action}>  
+    <Form action={action} onSubmitCompleted$={() => newTab(newPageAdrr)}>  
     {data.map(({attributes, id}) => (
       <div key={id}>
         {attributes.aspekty.map(({definicje, id}) => (
@@ -66,7 +106,7 @@ export default component$(() => {
         ))}
       </div>
     ))}
-      <button type='submit' onClick$={() => newTab(newPageAdrr)}>Submit</button>
+      <button type='submit'>Submit</button>
     </Form>
     </>
   );
