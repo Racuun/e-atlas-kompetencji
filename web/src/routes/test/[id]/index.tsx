@@ -1,10 +1,13 @@
-import { component$, useStylesScoped$ } from '@builder.io/qwik';
+import { component$, useStylesScoped$, useTask$, useVisibleTask$ } from '@builder.io/qwik';
 import { Scale } from '~/components/scale/scale';
 import questionStyles from './question.css?inline'
 import { Form, routeAction$, routeLoader$, useLocation, useNavigate } from '@builder.io/qwik-city';
+import { Session } from 'inspector';
+
+let x8: boolean;
 
 export const useSkillsData = routeLoader$(async ({params, query}) => {
-  const x8 :boolean = query.has('x8');
+  x8 = query.has('x8');
   const metodyka: string | null = query.get('metodyka')
 
 
@@ -26,51 +29,16 @@ export const useSkillsData = routeLoader$(async ({params, query}) => {
   return data;
 })
 
-interface CookieAnswI {
-  data: [{
-    id: number,
-    answ: number[]
-  }]
-}
-
 export const useFillQuestionare = routeAction$( async (_answ, event) => {
-  const cookie = event.cookie;
-  let temp: CookieAnswI;
-  let update: boolean = false;
-
-  const index: number = parseInt(event.params.id);
-
-  console.log('saving!')
-
-  if (cookie.has('answ')) {
-    temp = cookie.get('answ')?.json() as CookieAnswI
-
-    update = (temp.data.length >= index);
-    
-    console.log(temp.data)
+  return {
+    succes: true,
+    _answ
   }
-  console.log(update);
-
-  const record = {
-    id: index,
-    answ: [],
-  }
-
-  for (let i=0; i < _answ.data.length; i++) {
-    record.answ.push(parseInt(_answ.data[i]))
-  }
-
-  if (update) {
-    temp.data[index-1] = record
-  } else {
-    temp = {data: [record]}
-  }
-
-  console.log(temp.data)
-  cookie.set('answ', JSON.stringify(temp))
 })
 
-
+async function save(id:string, data) {
+  sessionStorage.setItem(id, JSON.stringify(data));
+}
 
 export default component$(() => {
   useStylesScoped$(questionStyles)
@@ -81,17 +49,29 @@ export default component$(() => {
   
   const action = useFillQuestionare();
   
+  
+
   const newTab = useNavigate();
 
   const locattion = useLocation();
   const nextPageId = parseInt(locattion.params.id) + 1;
-  const newPageAdrr = (nextPageId > meta.pagination.pageCount) ? '/' : '/test/' + nextPageId;
+  const newPageAdrr = (nextPageId > meta.pagination.pageCount) ? '/results/' + Date.now().toString() + (x8 && '?x8') : '/test/' + nextPageId;
   console.log(nextPageId > meta.pagination.pageCount)
   console.log(newPageAdrr)
+  
+  useTask$(async ({track}) => {
+    track(() => action.value?.succes)
+
+    if(!action.value?.succes)
+      return;
+
+    save(locattion.params.id, action.value._answ)
+    newTab(newPageAdrr)
+  })
 
   return (
     <>
-    <Form action={action} onSubmitCompleted$={() => newTab(newPageAdrr)}>  
+    <Form action={action}>  
     {data.map(({attributes, id}) => (
       <div key={id}>
         {attributes.aspekty.map(({definicje, id}) => (
