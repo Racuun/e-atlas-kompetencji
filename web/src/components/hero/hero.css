@@ -40,16 +40,19 @@
 .name-text h1 {
     margin: 0px;
     padding: 0px;
-    font-size: 134px;
+    font-size: 148px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     text-align: center;
     position: relative;
     top: 50%;
 }
 .name-text h2 {
     margin: 0px;
-    margin-top: -5%;
+    margin-top: -6%;
     padding: 0;
-    font-size: 60px;
+    font-size: 66px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
     text-align: center;
     position: relative;
 }
