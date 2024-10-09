@@ -34,6 +34,9 @@ export interface AtlasDefinicja extends Schema.Component {
         number
       > &
       Attribute.DefaultTo<5>;
+    negatywna: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
   };
 }
 

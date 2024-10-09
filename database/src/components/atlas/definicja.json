@@ -17,6 +17,11 @@
       "min": 1,
       "max": 9,
       "default": 5
+    },
+    "negatywna": {
+      "type": "boolean",
+      "default": false,
+      "required": true
     }
   }
 }
