@@ -1,36 +1,16 @@
 {
-  "name": "database",
-  "version": "0.1.0",
+  "name": "keystone-app",
+  "version": "1.0.3",
   "private": true,
-  "description": "A Strapi application",
   "scripts": {
-    "build": "strapi build",
-    "deploy": "strapi deploy",
-    "develop": "strapi develop",
-    "start": "strapi start",
-    "strapi": "strapi"
+    "dev": "keystone dev",
+    "start": "keystone start",
+    "build": "keystone build"
   },
   "dependencies": {
-    "@strapi/plugin-cloud": "5.0.6",
-    "@strapi/plugin-users-permissions": "5.0.6",
-    "@strapi/strapi": "5.0.6",
-    "better-sqlite3": "9.4.3",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.0.0",
-    "styled-components": "^6.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "typescript": "^5"
-  },
-  "engines": {
-    "node": ">=18.0.0 <=20.x.x",
-    "npm": ">=6.0.0"
-  },
-  "strapi": {
-    "uuid": "b8d44426-7060-4073-ac2a-b429747c8b26"
+    "@keystone-6/auth": "^8.0.0",
+    "@keystone-6/core": "^6.0.0",
+    "@keystone-6/fields-document": "^9.0.0",
+    "typescript": "^5.5.0"
   }
 }
