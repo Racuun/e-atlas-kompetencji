@@ -36,3 +36,30 @@ model Tag {
   name  String @default("")
   posts Post[] @relation("Post_tags")
 }
+
+model Definicja {
+  id                    String   @id @default(cuid())
+  opis                  String   @default("")
+  poziom                Int?
+  negatywna             Boolean  @default(false)
+  aspekt                Aspekt?  @relation("Definicja_aspekt", fields: [aspektId], references: [id])
+  aspektId              String?  @map("aspekt")
+  from_Aspekt_definicje Aspekt[] @relation("Aspekt_definicje")
+
+  @@index([aspektId])
+}
+
+model Aspekt {
+  id                      String       @id @default(cuid())
+  nazwa                   String       @default("")
+  definicje               Definicja[]  @relation("Aspekt_definicje")
+  from_Definicja_aspekt   Definicja[]  @relation("Definicja_aspekt")
+  from_Kompetecja_aspekty Kompetecja[] @relation("Kompetecja_aspekty")
+}
+
+model Kompetecja {
+  id       String   @id @default(cuid())
+  nazwa    String   @default("")
+  metodyka String?  @default("N/A")
+  aspekty  Aspekt[] @relation("Kompetecja_aspekty")
+}

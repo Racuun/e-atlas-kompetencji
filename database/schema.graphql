@@ -254,6 +254,217 @@ input TagCreateInput {
   posts: PostRelateToManyForCreateInput
 }
 
+type Definicja {
+  id: ID!
+  opis: String
+  poziom: Int
+  negatywna: Boolean
+  aspekt: Aspekt
+}
+
+input DefinicjaWhereUniqueInput {
+  id: ID
+}
+
+input DefinicjaWhereInput {
+  AND: [DefinicjaWhereInput!]
+  OR: [DefinicjaWhereInput!]
+  NOT: [DefinicjaWhereInput!]
+  id: IDFilter
+  opis: StringFilter
+  poziom: IntNullableFilter
+  negatywna: BooleanFilter
+  aspekt: AspektWhereInput
+}
+
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntNullableFilter
+}
+
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
+}
+
+input DefinicjaOrderByInput {
+  id: OrderDirection
+  opis: OrderDirection
+  poziom: OrderDirection
+  negatywna: OrderDirection
+}
+
+input DefinicjaUpdateInput {
+  opis: String
+  poziom: Int
+  negatywna: Boolean
+  aspekt: AspektRelateToOneForUpdateInput
+}
+
+input AspektRelateToOneForUpdateInput {
+  create: AspektCreateInput
+  connect: AspektWhereUniqueInput
+  disconnect: Boolean
+}
+
+input DefinicjaUpdateArgs {
+  where: DefinicjaWhereUniqueInput!
+  data: DefinicjaUpdateInput!
+}
+
+input DefinicjaCreateInput {
+  opis: String
+  poziom: Int
+  negatywna: Boolean
+  aspekt: AspektRelateToOneForCreateInput
+}
+
+input AspektRelateToOneForCreateInput {
+  create: AspektCreateInput
+  connect: AspektWhereUniqueInput
+}
+
+type Aspekt {
+  id: ID!
+  nazwa: String
+  definicje(where: DefinicjaWhereInput! = {}, orderBy: [DefinicjaOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: DefinicjaWhereUniqueInput): [Definicja!]
+  definicjeCount(where: DefinicjaWhereInput! = {}): Int
+}
+
+input AspektWhereUniqueInput {
+  id: ID
+}
+
+input AspektWhereInput {
+  AND: [AspektWhereInput!]
+  OR: [AspektWhereInput!]
+  NOT: [AspektWhereInput!]
+  id: IDFilter
+  nazwa: StringFilter
+  definicje: DefinicjaManyRelationFilter
+}
+
+input DefinicjaManyRelationFilter {
+  every: DefinicjaWhereInput
+  some: DefinicjaWhereInput
+  none: DefinicjaWhereInput
+}
+
+input AspektOrderByInput {
+  id: OrderDirection
+  nazwa: OrderDirection
+}
+
+input AspektUpdateInput {
+  nazwa: String
+  definicje: DefinicjaRelateToManyForUpdateInput
+}
+
+input DefinicjaRelateToManyForUpdateInput {
+  disconnect: [DefinicjaWhereUniqueInput!]
+  set: [DefinicjaWhereUniqueInput!]
+  create: [DefinicjaCreateInput!]
+  connect: [DefinicjaWhereUniqueInput!]
+}
+
+input AspektUpdateArgs {
+  where: AspektWhereUniqueInput!
+  data: AspektUpdateInput!
+}
+
+input AspektCreateInput {
+  nazwa: String
+  definicje: DefinicjaRelateToManyForCreateInput
+}
+
+input DefinicjaRelateToManyForCreateInput {
+  create: [DefinicjaCreateInput!]
+  connect: [DefinicjaWhereUniqueInput!]
+}
+
+type Kompetecja {
+  id: ID!
+  nazwa: String
+  metodyka: String
+  aspekty(where: AspektWhereInput! = {}, orderBy: [AspektOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AspektWhereUniqueInput): [Aspekt!]
+  aspektyCount(where: AspektWhereInput! = {}): Int
+}
+
+input KompetecjaWhereUniqueInput {
+  id: ID
+}
+
+input KompetecjaWhereInput {
+  AND: [KompetecjaWhereInput!]
+  OR: [KompetecjaWhereInput!]
+  NOT: [KompetecjaWhereInput!]
+  id: IDFilter
+  nazwa: StringFilter
+  metodyka: StringNullableFilter
+  aspekty: AspektManyRelationFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: StringNullableFilter
+}
+
+input AspektManyRelationFilter {
+  every: AspektWhereInput
+  some: AspektWhereInput
+  none: AspektWhereInput
+}
+
+input KompetecjaOrderByInput {
+  id: OrderDirection
+  nazwa: OrderDirection
+  metodyka: OrderDirection
+}
+
+input KompetecjaUpdateInput {
+  nazwa: String
+  metodyka: String
+  aspekty: AspektRelateToManyForUpdateInput
+}
+
+input AspektRelateToManyForUpdateInput {
+  disconnect: [AspektWhereUniqueInput!]
+  set: [AspektWhereUniqueInput!]
+  create: [AspektCreateInput!]
+  connect: [AspektWhereUniqueInput!]
+}
+
+input KompetecjaUpdateArgs {
+  where: KompetecjaWhereUniqueInput!
+  data: KompetecjaUpdateInput!
+}
+
+input KompetecjaCreateInput {
+  nazwa: String
+  metodyka: String
+  aspekty: AspektRelateToManyForCreateInput
+}
+
+input AspektRelateToManyForCreateInput {
+  create: [AspektCreateInput!]
+  connect: [AspektWhereUniqueInput!]
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -278,6 +489,24 @@ type Mutation {
   updateTags(data: [TagUpdateArgs!]!): [Tag]
   deleteTag(where: TagWhereUniqueInput!): Tag
   deleteTags(where: [TagWhereUniqueInput!]!): [Tag]
+  createDefinicja(data: DefinicjaCreateInput!): Definicja
+  createDefinicjas(data: [DefinicjaCreateInput!]!): [Definicja]
+  updateDefinicja(where: DefinicjaWhereUniqueInput!, data: DefinicjaUpdateInput!): Definicja
+  updateDefinicjas(data: [DefinicjaUpdateArgs!]!): [Definicja]
+  deleteDefinicja(where: DefinicjaWhereUniqueInput!): Definicja
+  deleteDefinicjas(where: [DefinicjaWhereUniqueInput!]!): [Definicja]
+  createAspekt(data: AspektCreateInput!): Aspekt
+  createAspekts(data: [AspektCreateInput!]!): [Aspekt]
+  updateAspekt(where: AspektWhereUniqueInput!, data: AspektUpdateInput!): Aspekt
+  updateAspekts(data: [AspektUpdateArgs!]!): [Aspekt]
+  deleteAspekt(where: AspektWhereUniqueInput!): Aspekt
+  deleteAspekts(where: [AspektWhereUniqueInput!]!): [Aspekt]
+  createKompetecja(data: KompetecjaCreateInput!): Kompetecja
+  createKompetecjas(data: [KompetecjaCreateInput!]!): [Kompetecja]
+  updateKompetecja(where: KompetecjaWhereUniqueInput!, data: KompetecjaUpdateInput!): Kompetecja
+  updateKompetecjas(data: [KompetecjaUpdateArgs!]!): [Kompetecja]
+  deleteKompetecja(where: KompetecjaWhereUniqueInput!): Kompetecja
+  deleteKompetecjas(where: [KompetecjaWhereUniqueInput!]!): [Kompetecja]
   endSession: Boolean!
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
@@ -310,6 +539,15 @@ type Query {
   tag(where: TagWhereUniqueInput!): Tag
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
+  definicja(where: DefinicjaWhereUniqueInput!): Definicja
+  definicjas(where: DefinicjaWhereInput! = {}, orderBy: [DefinicjaOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: DefinicjaWhereUniqueInput): [Definicja!]
+  definicjasCount(where: DefinicjaWhereInput! = {}): Int
+  aspekt(where: AspektWhereUniqueInput!): Aspekt
+  aspekts(where: AspektWhereInput! = {}, orderBy: [AspektOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AspektWhereUniqueInput): [Aspekt!]
+  aspektsCount(where: AspektWhereInput! = {}): Int
+  kompetecja(where: KompetecjaWhereUniqueInput!): Kompetecja
+  kompetecjas(where: KompetecjaWhereInput! = {}, orderBy: [KompetecjaOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: KompetecjaWhereUniqueInput): [Kompetecja!]
+  kompetecjasCount(where: KompetecjaWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }

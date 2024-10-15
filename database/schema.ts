@@ -16,6 +16,8 @@ import {
   password,
   timestamp,
   select,
+  integer,
+  checkbox,
 } from '@keystone-6/core/fields'
 
 // the document field is a more complicated field, so it has it's own package
@@ -146,4 +148,67 @@ export const lists = {
       posts: relationship({ ref: 'Post.tags', many: true }),
     },
   }),
+
+
+  Definicja: list({
+      access: allowAll,
+
+    fields: {
+      opis: text(),
+      poziom: integer(),
+      negatywna: checkbox(),
+
+      aspekt: relationship({
+        ref: 'Aspekt',
+        many: false,
+      })
+    }
+  }),
+
+  Aspekt: list({
+    access: allowAll,
+
+    fields: {
+      nazwa: text(),
+      definicje: relationship({
+        ref: 'Definicja',
+        many: true,
+        ui: {
+          hideCreate: false,
+          displayMode: 'select',
+
+        }
+      })
+    }
+  }),
+
+  Kompetecja: list({
+    access: allowAll,
+
+    fields: {
+      nazwa: text(),
+      metodyka: select({
+        type: 'string',
+        options:[
+          { label: "Harcerska", value: 'harc' },
+          { label: "Wędrownicza", value: 'wedr' },
+          { label: "Zuchowa", value: 'zuch' },
+          { label: "Nie dotyczy", value: 'N/A' },
+        ],
+        defaultValue: 'N/A'
+      }),
+
+      aspekty: relationship({
+        ref: 'Aspekt',
+        many: true,
+        ui: {
+          hideCreate: false,
+          displayMode: 'select',
+
+        }
+      })
+    }
+  }),
+
+
 } satisfies Lists
