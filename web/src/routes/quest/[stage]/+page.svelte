@@ -32,7 +32,7 @@
     <form method="POST" action="?/analyze">
     {#each data.questions as question}
         <p>{question.description}</p>
-        {@const _ID = question.kID + '/' + question.aID + '/' + question.dID}
+        {@const _ID = question.kID + '/' + question.aID + '/' + question.dID + '/' + question.level + '/' + question.negative}
         <Scale ID={_ID}/>
     {/each}
         <button type=submit>Dalej</button>
