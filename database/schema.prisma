@@ -16,25 +16,7 @@ model User {
   name      String    @default("")
   email     String    @unique @default("")
   password  String
-  posts     Post[]    @relation("Post_author")
   createdAt DateTime? @default(now())
-}
-
-model Post {
-  id       String  @id @default(cuid())
-  title    String  @default("")
-  content  String  @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  author   User?   @relation("Post_author", fields: [authorId], references: [id])
-  authorId String? @map("author")
-  tags     Tag[]   @relation("Post_tags")
-
-  @@index([authorId])
-}
-
-model Tag {
-  id    String @id @default(cuid())
-  name  String @default("")
-  posts Post[] @relation("Post_tags")
 }
 
 model Definicja {
@@ -50,16 +32,21 @@ model Definicja {
 }
 
 model Aspekt {
-  id                      String       @id @default(cuid())
-  nazwa                   String       @default("")
-  definicje               Definicja[]  @relation("Aspekt_definicje")
-  from_Definicja_aspekt   Definicja[]  @relation("Definicja_aspekt")
-  from_Kompetecja_aspekty Kompetecja[] @relation("Kompetecja_aspekty")
+  id                       String        @id @default(cuid())
+  nazwa                    String        @default("")
+  definicje                Definicja[]   @relation("Aspekt_definicje")
+  kompetencja              Kompetencja?  @relation("Aspekt_kompetencja", fields: [kompetencjaId], references: [id])
+  kompetencjaId            String?       @map("kompetencja")
+  from_Definicja_aspekt    Definicja[]   @relation("Definicja_aspekt")
+  from_Kompetencja_aspekty Kompetencja[] @relation("Kompetencja_aspekty")
+
+  @@index([kompetencjaId])
 }
 
-model Kompetecja {
-  id       String   @id @default(cuid())
-  nazwa    String   @default("")
-  metodyka String?  @default("N/A")
-  aspekty  Aspekt[] @relation("Kompetecja_aspekty")
+model Kompetencja {
+  id                      String   @id @default(cuid())
+  nazwa                   String   @default("")
+  metodyka                String?  @default("N/A")
+  aspekty                 Aspekt[] @relation("Kompetencja_aspekty")
+  from_Aspekt_kompetencja Aspekt[] @relation("Aspekt_kompetencja")
 }
