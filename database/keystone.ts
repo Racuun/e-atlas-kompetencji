@@ -4,6 +4,7 @@
 //
 // Keystone imports the default export of this file, expecting a Keystone configuration object
 //   you can find out more at https://keystonejs.com/docs/apis/config
+import 'dotenv/config'
 
 import { config } from '@keystone-6/core'
 
@@ -21,12 +22,14 @@ export default withAuth(
       // we're using sqlite for the fastest startup experience
       //   for more information on what database might be appropriate for you
       //   see https://keystonejs.com/docs/guides/choosing-a-database#title
-      provider: 'sqlite',
-      url: 'file:./keystone.db',
+      provider: process.env.DB_PROVIDER as any,
+      url: process.env.DB_URL as string,
+      onConnect: async context => { /* ... */ },
     },
     lists,
     session,
     server: {
+      port: parseInt(process.env.PORT as string),
       cors: { origin: ['http://localhost:5173'], credentials: true },
     }
   })
