@@ -25,6 +25,8 @@ export default withAuth(
       provider: process.env.DB_PROVIDER as any,
       url: process.env.DB_URL as string,
       onConnect: async context => { /* ... */ },
+      enableLogging: true,
+      idField: { kind: 'cuid' },
     },
     lists,
     session,
