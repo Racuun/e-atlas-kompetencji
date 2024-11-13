@@ -63,20 +63,34 @@ export const lists = {
     access: allowAll,
 
     fields: {
-      opis: text(),
-      poziom: integer(),
+      opis: text({ validation: { isRequired: true } }),
+      poziom: integer({
+        validation: {
+          isRequired: true,
+          min: 1,
+          max: 9,
+        }
+      }),
       negatywna: checkbox(),
 
       aspekt: relationship({
         ref: 'Aspekt',
         many: false,
+      }),
+
+      aktualizacja: timestamp({
+        defaultValue: { kind: 'now' },
+        db: {
+          updatedAt: true,
+        }
       })
     },
 
     ui: {
       label: 'Definicje',
       singular: 'Definicja',
-      plural: 'Definicje'
+      plural: 'Definicje',
+      hideCreate: ({ session, context }) => false,
     },
 
     graphql: {
@@ -94,14 +108,13 @@ export const lists = {
     access: allowAll,
 
     fields: {
-      nazwa: text(),
+      nazwa: text({ validation: { isRequired: true } }),
       definicje: relationship({
         ref: 'Definicja',
         many: true,
         ui: {
           hideCreate: false,
           displayMode: 'select',
-
         }
       }),
       kompetencja: relationship({
@@ -110,7 +123,6 @@ export const lists = {
         ui: {
           hideCreate: false,
           displayMode: 'select',
-
         }
       })
     },
@@ -118,7 +130,8 @@ export const lists = {
     ui: {
       label: 'Aspekty',
       singular: 'Aspekt',
-      plural: 'Aspekty'
+      plural: 'Aspekty',
+      hideCreate: ({ session, context }) => false,
     },
 
     graphql: {
@@ -136,7 +149,7 @@ export const lists = {
     access: allowAll,
 
     fields: {
-      nazwa: text(),
+      nazwa: text({ validation: { isRequired: true } }),
       metodyka: select({
         type: 'string',
         options:[
@@ -145,7 +158,7 @@ export const lists = {
           { label: "Zuchowa", value: 'zuch' },
           { label: "Nie dotyczy", value: 'N/A' },
         ],
-        defaultValue: 'N/A'
+        defaultValue: 'N/A',
       }),
 
       aspekty: relationship({
@@ -162,7 +175,8 @@ export const lists = {
     ui: {
       label: 'Kompetencje',
       singular: 'Kompetencja',
-      plural: 'Kompetencje'
+      plural: 'Kompetencje',
+      hideCreate: ({ session, context }) => false,
     },
 
     graphql: {
