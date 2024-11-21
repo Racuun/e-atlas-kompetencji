@@ -33,6 +33,18 @@ export default withAuth(
     server: {
       port: parseInt(process.env.PORT as string),
       cors: { origin: ['http://localhost:5173'], credentials: true },
+    },
+
+    storage: {
+      local_images: {
+        kind: 'local',
+        type: 'image',
+        generateUrl: path => `http://localhost:${process.env.PORT as string}/images${path}`,
+        serverRoute: {
+          path: '/images'
+        },
+        storagePath: 'public/images'
+      }
     }
   })
 )

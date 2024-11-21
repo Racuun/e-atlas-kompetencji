@@ -18,6 +18,7 @@ import {
   select,
   integer,
   checkbox,
+  image,
 } from '@keystone-6/core/fields'
 
 // the document field is a more complicated field, so it has it's own package
@@ -71,11 +72,26 @@ export const lists = {
           max: 9,
         }
       }),
-      negatywna: checkbox(),
+      negatywna: select({
+        type: 'enum',
+          options: [
+            { label: 'Negatywna', value: 'negative' },
+            { label: 'Pozytywna', value: 'positive' },
+          ],
+          label: "Charakter definicji: ",
+          defaultValue: 'positive',
+          ui: { displayMode: 'segmented-control'},
+      }),
 
       aspekt: relationship({
         ref: 'Aspekt',
         many: false,
+        ui: {
+          hideCreate: false,
+          displayMode: 'cards',
+          cardFields: [ 'nazwa' ],
+          removeMode: 'none'
+        }
       }),
 
       aktualizacja: timestamp({
@@ -87,22 +103,22 @@ export const lists = {
     },
 
     ui: {
+      labelField: 'opis',
+      listView: { initialColumns: ['opis', 'poziom'] },
+      itemView: { defaultFieldMode: ({ session, context }) => 'read'},
       label: 'Definicje',
       singular: 'Definicja',
       plural: 'Definicje',
-      hideCreate: ({ session, context }) => false,
+      hideCreate: ({ session, context }) => true,
     },
 
     graphql: {
       plural: 'Definicje',
-      omit: {
-        query: false,
-        create: true,
-        update: true,
-        delete: true,
-      }
     }
   }),
+
+
+  /* Define Aspekt list */
 
   Aspekt: list({
     access: allowAll,
@@ -114,7 +130,12 @@ export const lists = {
         many: true,
         ui: {
           hideCreate: false,
-          displayMode: 'select',
+          displayMode: 'cards',
+          cardFields: [ 'opis', 'poziom', 'negatywna' ],
+          inlineEdit: { fields: [ 'poziom', 'negatywna' ] },
+          inlineCreate: { fields: [ 'opis', 'poziom', 'negatywna' ] },
+          inlineConnect: true,
+          removeMode: 'disconnect',
         }
       }),
       kompetencja: relationship({
@@ -122,12 +143,17 @@ export const lists = {
         many: false,
         ui: {
           hideCreate: false,
-          displayMode: 'select',
+          displayMode: 'cards',
+          cardFields: [ 'nazwa' ],
+          inlineConnect: true,
+          removeMode: 'disconnect'
         }
       })
     },
 
     ui: {
+      labelField: 'nazwa',
+
       label: 'Aspekty',
       singular: 'Aspekt',
       plural: 'Aspekty',
@@ -136,14 +162,11 @@ export const lists = {
 
     graphql: {
       plural: 'Aspekty',
-      omit: {
-        query: false,
-        create: true,
-        update: true,
-        delete: true,
-      }
     }
   }),
+
+
+  /* Define Kompetencja List */
 
   Kompetencja: list({
     access: allowAll,
@@ -166,13 +189,20 @@ export const lists = {
         many: true,
         ui: {
           hideCreate: false,
-          displayMode: 'select',
-
+          displayMode: 'cards',
+          cardFields: [ 'nazwa' ],
+          inlineEdit: { fields: [ 'nazwa' ] },
+          inlineConnect: true,
+          removeMode: 'disconnect',
         }
-      })
+      }),
+
+      logo: image({ storage: 'local_images' }),
     },
 
     ui: {
+      labelField: 'nazwa',
+
       label: 'Kompetencje',
       singular: 'Kompetencja',
       plural: 'Kompetencje',
@@ -181,12 +211,6 @@ export const lists = {
 
     graphql: {
       plural: 'Kompetencje',
-      omit: {
-        query: false,
-        create: true,
-        update: true,
-        delete: true,
-      }
     }
   }),
 
