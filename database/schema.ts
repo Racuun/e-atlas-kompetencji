@@ -81,6 +81,7 @@ export const lists = {
           label: "Charakter definicji: ",
           defaultValue: 'positive',
           db: { isNullable: false },
+          validation: {isRequired: true },
           ui: { displayMode: 'segmented-control'},
       }),
 
