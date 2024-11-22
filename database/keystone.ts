@@ -24,6 +24,7 @@ export default withAuth(
       //   see https://keystonejs.com/docs/guides/choosing-a-database#title
       provider: process.env.DB_PROVIDER as any,
       url: process.env.DB_URL as string,
+      shadowDatabaseUrl: process.env.DB_SHADOW_URL as string,
       onConnect: async context => { /* ... */ },
       enableLogging: true,
       idField: { kind: 'cuid' },
