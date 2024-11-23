@@ -86,7 +86,7 @@ export const lists = {
       }),
 
       aspekt: relationship({
-        ref: 'Aspekt',
+        ref: 'Aspekt.definicje',
         many: false,
         ui: {
           hideCreate: false,
@@ -128,7 +128,7 @@ export const lists = {
     fields: {
       nazwa: text({ validation: { isRequired: true } }),
       definicje: relationship({
-        ref: 'Definicja',
+        ref: 'Definicja.aspekt',
         many: true,
         ui: {
           hideCreate: false,
@@ -141,7 +141,7 @@ export const lists = {
         }
       }),
       kompetencja: relationship({
-        ref: 'Kompetencja',
+        ref: 'Kompetencja.aspekty',
         many: false,
         ui: {
           hideCreate: false,
@@ -187,7 +187,7 @@ export const lists = {
       }),
 
       aspekty: relationship({
-        ref: 'Aspekt',
+        ref: 'Aspekt.kompetencja',
         many: true,
         ui: {
           hideCreate: false,
