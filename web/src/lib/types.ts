@@ -1,7 +1,7 @@
 export interface Question {
-    kID: number,
-    aID: number,
-    dID: number,
+    kID: string,
+    aID: string,
+    dID: string,
     description: string,
     level: number
     negative: boolean,
