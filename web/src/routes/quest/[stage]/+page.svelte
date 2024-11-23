@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { PageData } from '../$types';
     import Scale from '../../../components/scale.svelte';
 
     export let data: PageData;
@@ -28,7 +29,7 @@
 </form>
 {/if}
 
-{#if data.ready}
+{#if data.ready && data.questions !== undefined }
     <form method="POST" action="?/analyze">
     {#each data.questions as question}
         <p>{question.description}</p>
