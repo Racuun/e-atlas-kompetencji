@@ -111,5 +111,8 @@ export const actions = {
 
         cookies.set('asp-results', JSON.stringify(analyzedData.aspekty), { path: '/' })
         cookies.set('kom-results', JSON.stringify(analyzedData.kompetencje), { path: '/' })
+
+
+        redirect(301, '/result');
     }
 }
