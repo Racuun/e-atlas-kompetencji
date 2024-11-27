@@ -17,9 +17,6 @@ jobs:
   cms:
     name: Build CMS
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: database
 
     permissions:
       contents: read
@@ -65,7 +62,7 @@ jobs:
         id: pushCMS
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: "{{defaultContext}}:database"
           push: true
           tags: ${{ steps.metaCMS.outputs.tags }}
           labels: ${{ steps.metaCMS.outputs.labels }}, 
@@ -81,9 +78,6 @@ jobs:
   web:
     name: Build Web
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: web
 
     permissions:
       contents: read
@@ -119,7 +113,7 @@ jobs:
         id: pushWEB
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: "{{defaultContext}}:web"
           push: true
           tags: ${{ steps.metaWEB.outputs.tags }}
           labels: ${{ steps.metaWEB.outputs.labels }}, 
