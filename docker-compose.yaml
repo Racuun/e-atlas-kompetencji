@@ -1,0 +1,59 @@
+version: '0.1'
+name: "eAtlas Kompetencji"
+
+services:
+  web:
+    container_name: web-app
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    develop:
+      watch:
+        - action: rebuild
+          path: ./web
+          ignore:
+            - node_modules/
+    #env_file: .env.production
+    # network_mode: 'host'
+    links:
+      - cms
+      - cms:data
+    environment:
+      - CMS_URL=http://data:3100/api/graphql
+    restart: unless-stopped
+    ports:
+      - 5173:3000
+
+  cms:
+    container_name: cms
+    depends_on: [postgres]
+    build:
+      context: ./database
+      dockerfile: ./Dockerfile
+    #env_file: .env.production
+    # network_mode: 'host'
+    links:
+      - postgres
+      - postgres:db
+    restart: unless-stopped
+    ports:
+      - 54020:3100
+    environment:
+      - PORT=3100
+      - DB_PROVIDER=postgresql
+      - DB_URL=postgres://root:secret@db:5432/keystone
+      - DB_SHADOW_URL=postgres://shadow:secret-shadow@db:5432/keystone
+    volumes:
+      - /var/atl/cms
+
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=keystone
+    ports:
+      - "5432:5432"
+    volumes:
+     - ./data:/var/lib/postgresql/data
