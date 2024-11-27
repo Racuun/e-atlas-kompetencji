@@ -44,6 +44,7 @@ jobs:
   cms:
     name: Build CMS
     runs-on: ubuntu-latest
+    needs: tag
 
     permissions:
       contents: read
@@ -89,6 +90,7 @@ jobs:
   web:
     name: Build Web
     runs-on: ubuntu-latest
+    needs: tag
 
     permissions:
       contents: read
