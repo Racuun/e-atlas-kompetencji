@@ -71,7 +71,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: Dockerfile
           push: true
           tags: ${{ steps.metaCMS.outputs.tags }}
           labels: ${{ steps.metaCMS.outputs.labels }}, 
@@ -128,7 +127,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: Dockerfile
           push: true
           tags: ${{ steps.metaWEB.outputs.tags }}
           labels: ${{ steps.metaWEB.outputs.labels }}, 
