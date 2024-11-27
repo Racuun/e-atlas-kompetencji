@@ -72,7 +72,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.CMS_NAME }}
           tags: |
-            type=semver,pattern={{version}},value=${{ needs.tag.new_tag }}
+            type=semver,pattern={{version}},value=${{ needs.tag.outputs.new_tag }}
     
       - name: CMS - Build and push
         id: pushCMS
@@ -123,7 +123,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.WEB_NAME }}
           tags: |
-            type=semver,pattern={{version}},value=${{ needs.tag.new_tag }}
+            type=semver,pattern={{version}},value=${{ needs.tag.outputs.new_tag }}
     
       - name: WEB - Build and push
         id: pushWEB
