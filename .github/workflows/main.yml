@@ -52,11 +52,6 @@ jobs:
 
           
 # BUILD CMS IMAGE
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        with:
-          version: v0.7.0
-        
       - name: CMS - Metadata
         id: metaCMS
         uses: docker/metadata-action@v5.6.1
@@ -71,7 +66,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: Dockerfile
           push: true
           tags: ${{ steps.metaCMS.outputs.tags }}
           labels: ${{ steps.metaCMS.outputs.labels }}, 
@@ -111,8 +105,6 @@ jobs:
 # BUILD WEB IMAGE
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        with:
-          version: v0.7.0
         
       - name: WEB - Metadata
         id: metaWEB
@@ -128,7 +120,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: Dockerfile
           push: true
           tags: ${{ steps.metaWEB.outputs.tags }}
           labels: ${{ steps.metaWEB.outputs.labels }}, 
