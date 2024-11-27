@@ -11,9 +11,15 @@ env:
   WEB_NAME: "${{ github.repository }}.web"
   PRERELASE: true
 
+concurrency: production
+
 jobs:
-  build:
+  cms:
+    name: Build CMS
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: database
 
     permissions:
       contents: read
@@ -60,8 +66,8 @@ jobs:
         id: pushCMS
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: ./database/Dockerfile
+          context: ./database
+          file: Dockerfile
           push: true
           tags: ${{ steps.metaCMS.outputs.tags }}
           labels: ${{ steps.metaCMS.outputs.labels }}, 
@@ -74,6 +80,27 @@ jobs:
           push-to-registry: true
 
 
+  web:
+    name: Build Web
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: database
+
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
+    steps:
+      - name: Login to GitHub Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
 # BUILD WEB IMAGE
       - name: WEB - Metadata
         id: metaWEB
