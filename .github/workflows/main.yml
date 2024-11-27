@@ -7,7 +7,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  CMS_NAME: "${{ github.repository }}.cms"
+  WEB_NAME: "${{ github.repository }}.web"
   PRERELASE: true
 
 jobs:
@@ -37,18 +38,65 @@ jobs:
         run: |
           echo "Running build for ${{ steps.tagDR.outputs.tag }} -> ${{ steps.tagDR.outputs.new_tag }} "
 
-      # - 
-    
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v3
-      #   with:
-      #     registry: ${{ env.REGISTRY }}
-      #     username: ${{ github.actor }}
-      #     password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Login to GitHub Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
           
-      # - name: CMS - Build and push
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: ./database
-      #     push: true
-      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/atlas-kompetencji:latest
+# BUILD CMS IMAGE
+      - name: CMS - Metadata
+        id: metaCMS
+        uses: docker/metadata-action@v5.6.1
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.CMS_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=raw,value=cms
+    
+      - name: CMS - Build and push
+        id: pushCMS
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./database/Dockerfile
+          push: true
+          tags: ${{ steps.metaCMS.outputs.tags }}
+          labels: ${{ steps.metaCMS.outputs.labels }}, 
+          
+      - name: CMS - Generate artifact attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.CMS_NAME}}
+          subject-digest: ${{ steps.pushCMS.outputs.digest }}
+          push-to-registry: true
+
+
+# BUILD WEB IMAGE
+      - name: WEB - Metadata
+        id: metaWEB
+        uses: docker/metadata-action@v5.6.1
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.WEB_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=raw,value=web
+    
+      - name: WEB - Build and push
+        id: pushWEB
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./web/Dockerfile
+          push: true
+          tags: ${{ steps.metaWEB.outputs.tags }}
+          labels: ${{ steps.metaWEB.outputs.labels }}, 
+          
+      - name: WEB - Generate artifact attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-digest: ${{ steps.pushWEB.outputs.digest }}
+          push-to-registry: true
