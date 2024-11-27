@@ -38,7 +38,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           PRERELEASE: ${{ env.PRERELASE }}
-          DRY_RUN: true
 
       - name: echo tag
         run: |
@@ -66,7 +65,7 @@ jobs:
         id: pushCMS
         uses: docker/build-push-action@v6
         with:
-          context: ./database
+          context: .
           file: Dockerfile
           push: true
           tags: ${{ steps.metaCMS.outputs.tags }}
@@ -85,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: database
+        working-directory: web
 
     permissions:
       contents: read
