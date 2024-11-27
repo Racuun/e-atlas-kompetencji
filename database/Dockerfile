@@ -8,6 +8,10 @@ COPY . .
 
 RUN bun install --no-cache
 
+ENV DB_PROVIDER = 'postgresql'
+ENV DB_URL = 'postgres://root:secret@localhost:5432/keystone'
+ENV DB_SHADOW_UR = 'postgres://shadow:shadow-secret@localhost:5432/keystone'
+
 RUN bun run build
 
 EXPOSE ${PORT}
