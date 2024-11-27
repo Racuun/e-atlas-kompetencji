@@ -4,16 +4,10 @@ WORKDIR /app
 RUN apt-get update -y && apt-get install -y openssl
 RUN npm install -g bun
 
-#----- DEPENDENCIES -----
-FROM base AS install
-RUN mkdir -p /tmp
-COPY package.json /tmp
-RUN cd /tmp && bun install
-
-
-FROM base AS release
-COPY --from=install /tmp/node_modules ./node_modules
 COPY . .
+
+RUN bun install --no-cache
+
 RUN bun run build
 
 EXPOSE ${PORT}
