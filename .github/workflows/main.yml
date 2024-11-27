@@ -28,20 +28,20 @@ jobs:
       id-token: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      # - name: Checkout repository
+      #   uses: actions/checkout@v4
 
-      - name: Dry run tag
-        id: tagDR
-        uses: anothrNick/github-tag-action@1.67.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          PRERELEASE: ${{ env.PRERELASE }}
+      # - name: Dry run tag
+      #   id: tagDR
+      #   uses: anothrNick/github-tag-action@1.67.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     WITH_V: true
+      #     PRERELEASE: ${{ env.PRERELASE }}
 
-      - name: echo tag
-        run: |
-          echo "Running build for ${{ steps.tagDR.outputs.tag }} -> ${{ steps.tagDR.outputs.new_tag }} "
+      # - name: echo tag
+      #   run: |
+      #     echo "Running build for ${{ steps.tagDR.outputs.tag }} -> ${{ steps.tagDR.outputs.new_tag }} "
 
       - name: Login to GitHub Registry
         uses: docker/login-action@v3
@@ -52,6 +52,9 @@ jobs:
 
           
 # BUILD CMS IMAGE
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
       - name: CMS - Metadata
         id: metaCMS
         uses: docker/metadata-action@v5.6.1
@@ -101,6 +104,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           
 # BUILD WEB IMAGE
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
       - name: WEB - Metadata
         id: metaWEB
         uses: docker/metadata-action@v5.6.1
