@@ -6,7 +6,7 @@ on:
       - "main"
 
 env:
-  REGISTRY: ghcr.io
+  REGISTRY: "ghcr.io"
   CMS_NAME: "${{ github.repository }}.cms"
   WEB_NAME: "${{ github.repository }}.web"
   PRERELASE: true
@@ -14,8 +14,8 @@ env:
 concurrency: production
 
 jobs:
-  cms:
-    name: Build CMS
+  tag:
+    name: Version tag
     runs-on: ubuntu-latest
 
     permissions:
@@ -28,18 +28,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # - name: Dry run tag
-      #   id: tagDR
-      #   uses: anothrNick/github-tag-action@1.67.0
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     WITH_V: true
-      #     PRERELEASE: ${{ env.PRERELASE }}
+      - name: Run tag update
+        uses: anothrNick/github-tag-action@1.67.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          PRERELEASE: ${{ env.PRERELASE }}
 
-      # - name: echo tag
-      #   run: |
-      #     echo "Running build for ${{ steps.tagDR.outputs.tag }} -> ${{ steps.tagDR.outputs.new_tag }} "
+      - name: echo tag
+        run: |
+          echo "Running build for ${{ steps.tagDR.outputs.tag }} -> ${{ steps.tagDR.outputs.new_tag }} "
+    
+  
 
+  cms:
+    name: Build CMS
+    runs-on: ubuntu-latest
+    needs: tag
+
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
+    steps:
       - name: Login to GitHub Registry
         uses: docker/login-action@v3
         with:
@@ -56,7 +69,6 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.CMS_NAME }}
           tags: |
             type=semver,pattern={{version}}
-            type=raw,value=cms
     
       - name: CMS - Build and push
         id: pushCMS
@@ -78,6 +90,7 @@ jobs:
   web:
     name: Build Web
     runs-on: ubuntu-latest
+    needs: tag
 
     permissions:
       contents: read
@@ -107,7 +120,6 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.WEB_NAME }}
           tags: |
             type=semver,pattern={{version}}
-            type=raw,value=web
     
       - name: WEB - Build and push
         id: pushWEB
