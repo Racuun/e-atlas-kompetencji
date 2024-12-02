@@ -1,0 +1,96 @@
+name: "eAtlas-Kompetencji"
+
+services:
+  web:
+    container_name: "eAT-WebAPP"
+    image: "ghcr.io/racuun/e-atlas-kompetencji.web:latest"
+    networks:
+      - fronted
+    environment:
+      - CMS_URL=http://cms:3100/api/graphql
+    restart: always
+    ports:
+      - 5173:3000
+
+  cms:
+    container_name: "eAT-CMS"
+    depends_on:
+      postgres:
+        condition: service_started
+    image: "ghcr.io/racuun/e-atlas-kompetencji.cms:latest"
+    networks:
+      - backend
+      - fronted
+    restart: always
+    ports:
+      - 54020:3100
+    environment:
+      - PORT=3100
+      - DB_PROVIDER=postgresql
+      - DB_URL=postgres://root:secret@postgres:5432/keystone
+      - DB_SHADOW_URL=postgres://shadow:secret-shadow@postgres:5432/keystone
+    volumes:
+      - type: volume
+        source: atlas-db
+        target: /app/migrations
+        volume:
+          subpath: migrations
+    post_start:
+      - command: chmod 6774 start-migration.sh
+        user: root
+      - command: ./start-migration.sh
+        user: root
+
+
+  postgres:
+    image: postgres:17
+    container_name: "eAT-Postgres-DB"
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=keystone
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -d ${POSTGRES_DB}'"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    volumes:
+      - atlas-db:/var/lib/postgresql/data
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: "eAT-Watchtower"
+    depends_on:
+      cms:
+        condition: service_started
+      web:
+        condition: service_started
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: cms web
+    environment:
+      - WATCHTOWER_SCHEDULE=0 0 23 * * *
+      - WATCHTOWER_ROLLING_RESTART=true
+
+
+
+networks:
+  backend:
+    driver: bridge
+  fronted:
+    driver: bridge
+
+volumes:
+  atlas-db:
+    name: "atlas-postgres"
+    driver: local
+  atlas-app:
+    name: "atlas-app"
+    driver: local
