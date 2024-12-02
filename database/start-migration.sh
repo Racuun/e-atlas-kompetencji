@@ -15,13 +15,7 @@ create() {
     bun run keystone prisma migrate diff \
     --from-empty \
     --to-schema-datamodel schema.prisma \
-    --script > ../prisma/migrations/$1/migration.sql
-
-    if [ $(wc -c < "../prisma/migrations/${1}/migration.sql") -eq 0 ]; then
-        echo "Error"
-        exit 1
-    fi
-
+    --script > ./migrations/$1/migration.sql
 }
 
 directory() {
@@ -29,15 +23,16 @@ directory() {
         echo "ERROR: Timestamp not provided"
         exit 1
     fi
-    if [ ! -d "/prisma/migrations" ]; then
+    if [ ! -d "/app/migrations" ]; then
         echo "Creating migrations folder..."
-        mkdir -p "/prisma/migrations"
+        mkdir -p "/app/migrations"
     else
         echo "Directory 'migrations' exist"
     fi
-    if [ ! -d "/prisma/migrations/${1}/migration.sql" ]; then
+    if [ ! -d "/app/migrations/${1}/migration.sql" ]; then
         echo "Creating migration files..."
-        mkdir -p "/prisma/migrations/${1}"
+        mkdir -p "/app/migrations/${1}"
+        echo > /app/migrations/${1}/migration.sql
         echo "Files for ${1} created!"
     else
         echo "Migration files exist"
@@ -53,8 +48,6 @@ echo "Tmiestamp created: $tstamp"
 echo "Checking directory..."
 directory "${tstamp}"
 
-create "${tstamp}" 2>$err
+create "${tstamp}"
 
-if [ -s $err ]; then
-    bun run keystone prisma migrate resolve --applied "$tstamp"
-fi
+bun run keystone prisma migrate resolve --applied "$tstamp"
