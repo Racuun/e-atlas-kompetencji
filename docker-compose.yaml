@@ -44,7 +44,16 @@ services:
       - DB_URL=postgres://root:secret@db:5432/keystone
       - DB_SHADOW_URL=postgres://shadow:secret-shadow@db:5432/keystone
     volumes:
-      - /var/atl/cms
+      - type: volume
+        source: atlas-db
+        target: /app/migrations
+        volume:
+          subpath: migrations
+    post_start:
+      - command: chmod 6774 start-migration.sh
+        user: root
+      - command: ./start-migration.sh
+        user: root
 
   postgres:
     image: postgres:14-alpine
@@ -57,3 +66,11 @@ services:
       - "5432:5432"
     volumes:
      - ./data:/var/lib/postgresql/data
+
+volumes:
+  atlas-db:
+    name: "atlas-postgres"
+    driver: local
+  atlas-app:
+    name: "atlas-app"
+    driver: local
