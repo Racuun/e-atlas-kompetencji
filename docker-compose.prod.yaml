@@ -30,13 +30,9 @@ services:
       - DB_URL=postgres://root:secret@postgres:5432/keystone
       - DB_SHADOW_URL=postgres://shadow:secret-shadow@postgres:5432/keystone
     volumes:
-      - type: volume
-        source: atlas-db
-        target: /app/migrations
-        volume:
-          subpath: migrations
+      - atlas-db:/prisma
     post_start:
-      - command: chmod 6774 start-migration.sh
+      - command: chmod 4744 start-migration.sh
         user: root
       - command: ./start-migration.sh
         user: root
