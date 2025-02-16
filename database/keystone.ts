@@ -5,7 +5,7 @@ import { lists } from './schema'
 import { withAuth, session } from './auth'
 
 
-export default withAuth(
+export default //withAuth(
   config({
     db: {
       provider: process.env.DB_PROVIDER as any,
@@ -16,7 +16,7 @@ export default withAuth(
       idField: { kind: 'cuid' },
     },
     lists,
-    session,
+    //session,
     server: {
       port: parseInt(process.env.PORT as string),
       cors: { origin: ['http://web:3000', 'http://localhost:5137'], credentials: true },
@@ -39,4 +39,4 @@ export default withAuth(
       basePath: '/cms'
     }
   })
-)
+//)
