@@ -16,7 +16,7 @@ export default withAuth(
       idField: { kind: 'cuid' },
     },
     lists,
-    //session,
+    session,
     server: {
       port: parseInt(process.env.PORT as string),
       cors: { origin: ['http://web:3000', 'http://localhost:5137'], credentials: true },
