@@ -5,7 +5,7 @@ import { lists } from './schema'
 import { withAuth, session } from './auth'
 
 
-export default //withAuth(
+export default withAuth(
   config({
     db: {
       provider: process.env.DB_PROVIDER as any,
@@ -20,6 +20,9 @@ export default //withAuth(
     server: {
       port: parseInt(process.env.PORT as string),
       cors: { origin: ['http://web:3000', 'http://localhost:5137'], credentials: true },
+      extendExpressApp: (app) => {
+        app.set('trust proxy', true);
+      },
     },
 
     storage: {
@@ -39,4 +42,4 @@ export default //withAuth(
       basePath: '/cms'
     }
   })
-//)
+)
