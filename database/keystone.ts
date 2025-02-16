@@ -46,6 +46,11 @@ export default withAuth(
         },
         storagePath: 'public/images'
       }
+    },
+
+    ui: {
+      isDisabled: false,
+      basePath: '/cms'
     }
   })
 )
