@@ -90,7 +90,7 @@ export const actions = {
 
         console.log(data.get('sel_x8')+ ', ' + data.get('sel_fun'))
 
-        redirect(301, '/quest/2');
+        redirect(301, '/quest');
 
     },
 
