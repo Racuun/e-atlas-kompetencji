@@ -7,6 +7,7 @@
     "start": "keystone start",
     "build": "keystone build",
     "migrate-create": "keystone prisma migrate dev --create-only",
+    "migrate-dev": "keystone prisma migrate dev",
     "start-migrate": "keystone start --with-migrations",
     "db-init": "keystone prisma db push"
   },
