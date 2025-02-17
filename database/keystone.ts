@@ -21,14 +21,15 @@ export default withAuth(
       port: parseInt(process.env.PORT as string),
       cors: { origin: ['http://web:3000', 'http://localhost:5137'], credentials: true },
       extendExpressApp: (app) => {
-        app.use((req, res, next) => {
-          onHeaders(res, () => {
-            // Should be an array; let's join it together
-            const headerValue = Array.isArray(res.getHeader('set-cookie')) ? res.getHeader('set-cookie').join(' ') : ''
-            console.log('Set-Cookie response header being set as...\nSet-Cookie: ', headerValue)
-          });
-          next();
-        });
+        // app.use((req, res, next) => {
+        //   onHeaders(res, () => {
+        //     // Should be an array; let's join it together
+        //     if (res.getHeader('set-cookie') == undefined) return;
+        //     const headerValue = Array.isArray(res.getHeader('set-cookie')) ? res.getHeader('set-cookie').join(' ') : ''
+        //     console.log('Set-Cookie response header being set as...\nSet-Cookie: ', headerValue)
+        //   });
+        //   next();
+        // });
 
         app.set('trust proxy', true);
       },
