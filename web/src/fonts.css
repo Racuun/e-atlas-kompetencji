@@ -1,19 +1,20 @@
-
-@font-face {
-    font-family: 'IMEnglish';
-    src: url('fonts/feenrm2.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'IMEnglish';
-    src: url('fonts/feenit2.ttf') format('truetype');
-    font-weight: 400;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'IMEnglish';
-    src: url('fonts/feensc2.ttf') format('truetype');
-    font-weight: 500;
-    font-style: bold;
+@layer base {
+    @font-face {
+        font-family: 'IMEnglish';
+        src: url('fonts/feenrm2.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'IMEnglish';
+        src: url('fonts/feenit2.woff2') format('woff2');
+        font-weight: 400;
+        font-style: italic;
+    }
+    @font-face {
+        font-family: 'IMEnglish';
+        src: url('fonts/feensc2.woff2') format('woff2');
+        font-weight: 500;
+        font-style: bold;
+    }
 }
