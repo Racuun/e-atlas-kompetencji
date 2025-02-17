@@ -50,6 +50,11 @@ export default withAuth(
     ui: {
       isDisabled: false,
       basePath: '/cms'
+    },
+
+    graphql: {
+      path: '/cms/api/grphql',
+      playground: false,
     }
   })
 )
