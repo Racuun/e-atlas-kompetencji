@@ -48,6 +48,7 @@ export default withAuth(
     },
 
     ui: {
+      isAccessAllowed: (context) => !!context.session?.data,
       isDisabled: false,
       basePath: '/cms'
     },

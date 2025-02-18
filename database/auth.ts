@@ -8,6 +8,10 @@ const { withAuth } = createAuth({
   identityField: 'email',
   sessionData: 'name createdAt',
   secretField: 'password',
+
+  initFirstItem: {
+    fields: ['name', 'email', 'password'],
+  },
 })
 
 const sessionMaxAge = 60 * 60
@@ -17,7 +21,7 @@ const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: process.env.SESSION_SECRET,
   // domain: process.env.SESSION_DOMAIN || undefined,
-  secure: false,
+  secure: true,
 })
 
 export { withAuth, session }
