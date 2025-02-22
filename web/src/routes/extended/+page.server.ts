@@ -1,5 +1,73 @@
 import { createHash } from "node:crypto";
 import type { Actions } from "./$types";
+import type { PageServerLoad } from "./$types";
+import type { Question } from "$lib/types";
+import { env } from "$lib/env";
+
+export const load: PageServerLoad = async ({ cookies, fetch }) => {
+    return {
+        returnData: new Promise<Question[]>(async (resolve, reject) => {
+
+            let retData: Question[] = []
+
+            const query = `{
+                definicje ( where: {
+                    aspekt: {
+                        NOT: {
+                            kompetencja: null
+                        }
+                    }
+                }
+                ) {
+                    id
+                    poziom
+                    opis
+                    negatywna
+                    aspekt {
+                        id
+                        kompetencja {
+                            id
+                        }
+                    }
+                }
+            }`
+
+            const api_url = env.CMS_URL as string;
+            let data;
+
+            const request = await fetch(api_url as string, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                },
+                body: JSON.stringify({ query: query }),
+            })
+
+            data = await request.json();
+
+            console.log("Recieved data: " + JSON.stringify(data))
+
+            retData = Array.from(data.data.definicje).map((value: any) => {
+                return {
+                    kID: value.aspekt.kompetencja.id as string,
+                    aID: value.aspekt.id as string,
+                    dID: value.id as string,
+                    description: value.opis as string,
+                    level: value.poziom as number,
+                    negative: (value.negatywna === 'negative' ? false : true)
+                } as Question
+            })
+
+            console.log("Data: " + JSON.stringify(retData));
+
+
+
+            resolve(retData);
+        }),
+        resolve: true,
+    };
+};
 
 export const actions  ={
     config: async ({ cookies, request }) => {
