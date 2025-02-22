@@ -28,6 +28,7 @@
   "type": "module",
   "dependencies": {
     "@types/node": "^22.13.4",
-    "chart.js": "^4.4.8"
+    "chart.js": "^4.4.8",
+    "dotenv": "^16.4.7"
   }
 }
