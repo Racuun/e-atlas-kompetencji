@@ -32,27 +32,27 @@
 
     </section>
 
-    <section id="test">
-        <section id="type">
+    <form id="test" method="POST" action="/extended?/config">
+        <fieldset id="type">
             <h3>Format</h3>
             <div id="select">
                 <RadioButton radioName="typ" bind:group={typ} label="8K" value='8k' />
                 <RadioButton radioName="typ" bind:group={typ} label="5K" value='5k' />
             </div>
-        </section>
+        </fieldset>
 
-        <section id="met">
+        <fieldset id="met">
             <h3>Metodyka</h3>
             <div id="select">
                 <RadioButton radioName="metodyka" bind:group={metodyka} label="Harcerska" value='harc' />
                 <RadioButton radioName="metodyka" bind:group={metodyka} label="Zuchowa" value='zuch' />
                 <RadioButton radioName="metodyka" bind:group={metodyka} label="Wędrownicza" value='wedr' />
             </div>
-        </section>
+        </fieldset>
 
-        <button class="to-quest" onclick={ async(e) => {goto("/extended")}} disabled={!(metodyka!=='' && typ!=='')}>Rozpocznij test</button>
+        <button class="to-quest" type="submit" disabled={!(metodyka!=='' && typ!=='')}>Rozpocznij test</button>
+    </form>
 
-    </section>
 
 </main>
 
@@ -232,6 +232,9 @@
         border-radius: 50px 0px 0px 50px;
         background: #dcdcddcf;
         box-shadow: 0 0px 20px 10px #DCDCDD;
+    }
+    fieldset {
+        border: none;
     }
     #type {
         display: flex;
