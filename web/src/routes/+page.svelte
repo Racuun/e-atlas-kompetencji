@@ -35,15 +35,19 @@
     <section id="test">
         <section id="type">
             <h3>Format</h3>
-            <RadioButton radioName="typ" bind:group={typ} label="8K" value='8k' />
-            <RadioButton radioName="typ" bind:group={typ} label="5K" value='5k' />
+            <div id="select">
+                <RadioButton radioName="typ" bind:group={typ} label="8K" value='8k' />
+                <RadioButton radioName="typ" bind:group={typ} label="5K" value='5k' />
+            </div>
         </section>
 
         <section id="met">
             <h3>Metodyka</h3>
-            <RadioButton radioName="metodyka" bind:group={metodyka} label="Harcerska" value='harc' />
-            <RadioButton radioName="metodyka" bind:group={metodyka} label="Zuchowa" value='zuch' />
-            <RadioButton radioName="metodyka" bind:group={metodyka} label="Wędrownicza" value='wedr' />
+            <div id="select">
+                <RadioButton radioName="metodyka" bind:group={metodyka} label="Harcerska" value='harc' />
+                <RadioButton radioName="metodyka" bind:group={metodyka} label="Zuchowa" value='zuch' />
+                <RadioButton radioName="metodyka" bind:group={metodyka} label="Wędrownicza" value='wedr' />
+            </div>
         </section>
 
         <button class="to-quest" onclick={ async(e) => {goto("/extended")}} disabled={!(metodyka!=='' && typ!=='')}>Rozpocznij test</button>
@@ -217,6 +221,7 @@
 
     #test {
         width: 100%;
+        height: 100%;
         align-items: center;
 
         display: flex;
@@ -224,34 +229,45 @@
         justify-content: center;
         gap: 20px;
 
-        padding-top: 20%;
-        padding-bottom: 20%;
         border-radius: 50px 0px 0px 50px;
-        background: #DCDCDD;
+        background: #dcdcddcf;
         box-shadow: 0 0px 20px 10px #DCDCDD;
     }
     #type {
         display: flex;
+        flex-flow: column;
         width: 90%;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px   ;
-        justify-content: center;
-        align-content: center;
+        align-items: center;
+    }
+    #type  > #select {
+        flex-flow: row;
     }
     #met {
         display: grid;
         width: 90%;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 10px   ;
+        grid-template-columns: 1fr;
+        row-gap: 10px;
         justify-content: center;
+        justify-items: center;
         align-content: center;
     }
-    #met h3 {
+    #met h3,
+    #type h3 {
         grid-column: 1 / 4;
         text-align: center;
         font-size: 26px;
         font-family: 'IMEnglish';
         font-weight: 900;
+    }
+    #select {
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        flex-flow: column;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        max-width: 300px;
     }
 
 </style>
