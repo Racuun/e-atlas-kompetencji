@@ -1,15 +1,17 @@
 <script lang="ts">
-    let agreement: number = $state();
+    let agreement: number | undefined = $state();
 
-    const ID: string = $props.id();
 
     let {
+        ID = "",
         negLabel = "",
         posLabel = "",
         selected = $bindable(false),
     } : {
-        negLabel: string,
-        posLabel: string,
+        ID: string,
+        negLabel?: string,
+        posLabel?: string,
+        selected?: boolean,
     } = $props();
 
     $effect(() => {
