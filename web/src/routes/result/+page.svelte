@@ -44,9 +44,6 @@
 
 </script>
 
-<div class="back">
-    <img class="map" src="map.jpg" alt="Map not found"/>
-</div>
 
 <main>
     <section id="chart">
@@ -76,31 +73,6 @@
 
 
 <style>
-    .back{
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        background: #DCDCDD;
-        width: 100vw;
-        height: 100vh;
-        z-index: -100;
-    }
-    .map {
-        position: fixed;
-        scale: 1.1;
-        object-fit: cover;
-        top: 0px;
-        left: 50%;
-        min-width: 100%;
-        min-height: 100vh;
-        transform: translate(-45.5%, 0);
-        overflow: hidden;
-        opacity: 0.5;
-        filter: invert(0.1);
-    }
-
-
-
     main {
         position: absolute;
         top: 0; left: 0;
