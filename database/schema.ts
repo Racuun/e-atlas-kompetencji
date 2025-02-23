@@ -28,6 +28,7 @@ import { document } from '@keystone-6/fields-document'
 // when using Typescript, you can refine your types to a stricter subset by importing
 // the generated types from '.keystone/types'
 import { type Lists } from '.keystone/types'
+import { session } from './auth'
 
 export const lists = {
   User: list({
@@ -106,12 +107,27 @@ export const lists = {
 
     ui: {
       labelField: 'opis',
-      listView: { initialColumns: ['opis', 'poziom'] },
-      itemView: { defaultFieldMode: ({ session, context }) => 'read'},
+
       label: 'Definicje',
       singular: 'Definicja',
       plural: 'Definicje',
+      isHidden: ({ session, context }) => false,
       hideCreate: ({ session, context }) => true,
+      hideDelete: ({ session, context }) => false,
+      createView: {
+        defaultFieldMode: ({ session, context }) => 'edit',
+      },
+      itemView: {
+        defaultFieldMode: ({ session, context, item }) => 'read',
+      },
+      listView: {
+        defaultFieldMode: ({ session, context }) => 'read',
+        initialColumns: ['opis', 'poziom'],
+        initialSort: { field: 'nazwa', direction: 'ASC' },
+        pageSize: 50,
+      },
+
+      path: "definicje"
     },
 
     graphql: {
@@ -159,7 +175,23 @@ export const lists = {
       label: 'Aspekty',
       singular: 'Aspekt',
       plural: 'Aspekty',
+      isHidden: ({ session, context }) => false,
       hideCreate: ({ session, context }) => false,
+      hideDelete: ({ session, context }) => false,
+      createView: {
+        defaultFieldMode: ({ session, context }) => 'edit',
+      },
+      itemView: {
+        defaultFieldMode: ({ session, context, item }) => 'edit',
+      },
+      listView: {
+        defaultFieldMode: ({ session, context }) => 'read',
+        initialColumns: ['nazwa'],
+        initialSort: { field: 'nazwa', direction: 'ASC' },
+        pageSize: 50,
+      },
+
+      path: "aspekty"
     },
 
     graphql: {
@@ -208,7 +240,23 @@ export const lists = {
       label: 'Kompetencje',
       singular: 'Kompetencja',
       plural: 'Kompetencje',
+      isHidden: ({ session, context }) => false,
       hideCreate: ({ session, context }) => false,
+      hideDelete: ({ session, context }) => false,
+      createView: {
+        defaultFieldMode: ({ session, context }) => 'edit',
+      },
+      itemView: {
+        defaultFieldMode: ({ session, context, item }) => 'edit',
+      },
+      listView: {
+        defaultFieldMode: ({ session, context }) => 'read',
+        initialColumns: ['nazwa', 'metodyka'],
+        initialSort: { field: 'nazwa', direction: 'ASC' },
+        pageSize: 50,
+      },
+
+      path: "kompetencje"
     },
 
     graphql: {
