@@ -10,6 +10,7 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 
             let retData: Question[] = []
 
+            // TODO Dynamic query based on config cookie
             const query = `{
                 definicje ( where: {
                     aspekt: {
@@ -69,7 +70,7 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
     };
 };
 
-export const actions  ={
+export const actions = {
     config: async ({ cookies, request }) => {
         console.log("\x1b[1;32;2m[/extended:action:config]:\x1b[0m Pulling form data...");
         const data = await request.formData();
