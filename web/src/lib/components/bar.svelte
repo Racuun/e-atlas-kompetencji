@@ -7,31 +7,40 @@
 </script>
 
 <div class="card">
-    {name}
+    <h4>{name}</h4>
     <div class="row" >
         <div class="bar" >
-            <div class="scale"/>
-            <div class="value" style="--bar-width: {(100* value/max)}%"/>
+            <div class="scale"></div>
+            <div class="value" style="--bar-width: {(100* value/max)}%"></div>
 
         </div>
-        {value}
+        <p>{value}</p>
     </div>
 </div>
 
 <style>
     .card {
-        width: 500px;
+        width: fit-content;
+        max-width: 370px;
         height: fit-content;
     }
-    .card p {
-        width: 100%;
-        height: fit-content;
+    .card > h4 {
+        margin: 0;
+        padding-right: 10px;
+        padding-left: 10px;
     }
 
     .row {
         width: 100%;
         height: 50px;
         display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex-direction: row;
+    }
+    .row > p {
+        font-weight: bolder;
+        color: #296EB4;
     }
 
 
@@ -39,16 +48,18 @@
         height: 30px;
         width: 300px;
         margin-right: 10px;
+        border-radius: 8px;
+        overflow: hidden;
     }
     .scale {
         height: 100%;
         width: 100%;
-        background-color: gray;
+        background-color: #83A5C9;
     }
     .value {
         height: 100%;
         width: var(--bar-width);
-        background-color: blue;
+        background-color: #296EB4;
         position: relative;
         top: -100%;
     }
