@@ -1,17 +1,20 @@
-FROM oven/bun:latest AS base
+FROM oven/bun:latest AS builder
 
 WORKDIR /app
 
+COPY package.json bun.lockb ./
+
+RUN bun install --frozen-lockfile
+RUN bun add -D @rollup/rollup-linux-arm64-gnu
+
 COPY . .
 
-RUN bun i
-RUN bun run build
+RUN bun --bun run build
 
-FROM oven/bun:latest
+FROM oven/bun:latest AS deploy
 
+COPY --from=builder /app/build .
 
+EXPOSE 3000/tcp
 
-COPY --from=base /app/build .
-
-EXPOSE 3000
-CMD ["bun", "run", "start"]
+CMD bun ./index.js;
