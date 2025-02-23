@@ -1,7 +1,14 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import RadioButton from "$lib/components/radio_button.svelte";
 
 
+    let metodyka = $state('');
+    let typ = $state('');
+
+
+
+    export const prerender = true;
 </script>
 
 
@@ -10,118 +17,60 @@
     <meta name="description" content="Atlas kompetencji to narzędzie do ewaluacji umiejętności i kompetencji instruktorów ZHR" />
 </svelte:head>
 
-<div class="back">
-    <img class="map" src="map.jpg" alt="Map not found"/>
-    <div class="octagon"/>
-</div>
 
+<main>
 
-<div class="main">
-    <div class="hero">
+    <section class="hero">
         <img src="roza-wiatrow.png" alt="" class="roza"/>
         <div class="title">
             <h1>Atlas</h1>
             <h2>KOMPETENCJI</h2>
         </div>
 
-        <button class="to-quest" on:click={ async(e) => {goto("/quest")}}>Sprawdź się</button>
+    </section>
 
-    </div>
-    <div class="bottom-shape" >
+    <form id="test" method="POST" action="/extended?/config">
+        <fieldset id="type">
+            <h3>Format</h3>
+            <div id="select">
+                <RadioButton radioName="typ" bind:group={typ} label="8K" value='8k' />
+                <RadioButton radioName="typ" bind:group={typ} label="5K" value='5k' />
+            </div>
+        </fieldset>
 
-    </div>
-</div>
+        <fieldset id="met">
+            <h3>Metodyka</h3>
+            <div id="select">
+                <RadioButton radioName="metodyka" bind:group={metodyka} label="Harcerska" value='harc' />
+                <RadioButton radioName="metodyka" bind:group={metodyka} label="Zuchowa" value='zuch' />
+                <RadioButton radioName="metodyka" bind:group={metodyka} label="Wędrownicza" value='wedr' />
+            </div>
+        </fieldset>
 
-<div class="header">
-    <div class=logo-circle>
-        <img src="ZHR_Logo.png" alt="ZHR" class="logo-zhr"/>
-    </div>
-</div>
+        <button class="to-quest" type="submit" disabled={!(metodyka!=='' && typ!=='')}>Rozpocznij test</button>
+    </form>
+
+
+</main>
 
 
 <style>
-    .back{
-        background-color: #DCDCDD;
-    }
-    .map {
-        position: fixed;
-        scale: 1.1;
-        object-fit: cover;
-        top: 0px;
-        left: 50%;
-        min-width: 100%;
-        min-height: 100vh;
-        transform: translate(-45.5%, 0);
-        overflow: hidden;
-        opacity: 0.6;
-    }
-    /* .octagon {
-      width: 100px;
-      height: 100px;
-      background: red;
-      position: relative;
-      top:50%;
-    }
-    .octagon:before {
-      content: "";
-      width: 100px;
-      height: 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      border-bottom: 29px solid red;
-      border-left: 29px solid #eee;
-      border-right: 29px solid #eee;
-    }
-    .octagon:after {
-      content: "";
-      width: 100px;
-      height: 0;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      border-top: 29px solid red;
-      border-left: 29px solid #eee;
-      border-right: 29px solid #eee;
-    } */
-
-
-    .main {
+    main {
         position: absolute;
         left: 0px;
         top: 0px;
         width: 100%;
-        height: 100%;
-    }
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
 
-    .header{
-        position:fixed;
-        top:0;
-        left:0;
-        width: 100%;
-    }
-    .logo-circle {
-        width: 150px;
-        height: 150px;
-        top: -20px;
-        left: -30px;
-        position: relative;
-        background: #717D64;
-        border-radius: 0% 82% 60% 140% / 88% 97% 80% 60% ;
-    }
-    .logo-zhr {
-        width: 80px;
-        position: relative;
-        top: 55%;
-        left: 60%;
-        transform: translate(-50%, -50%);
     }
 
 
 
     .hero {
         display: flex;
-        margin-top: 50px;
         height: fit-content;
         width: 100%;
         flex-flow: column;
@@ -136,6 +85,7 @@
     .title {
         width: fit-content;
         font-family: 'IMEnglish';
+        color: #1F1F2E;
     }
     h1{
         margin: 0;
@@ -171,26 +121,69 @@
         font-size: 20px;
         text-transform: uppercase;
     }
-    .to-quest:hover {
+    .to-quest:hover:active {
         background-color: #717D64;
         color: #DCDCDD;
         transition-duration: 350ms;
     }
+    .to-quest:disabled,
+    .to-quest:disabled:hover {
+        border-color: #DCDCDD;
+        color: grey;
+    }
 
-
-    .bottom-shape {
-        --c: 60; /* control the curvature (a percentage value without unit bigger than 50%)*/
-
+    #test {
         width: 100%;
-        height: 50px;
-        transform: translate(-50%);
-        position: absolute;
-        bottom: 0px;
-        left: 50%;
-        aspect-ratio: 3/2;
-        background: #717D64;
-        mask: radial-gradient(calc(var(--c)*1%) 100% at 50% calc(100% + 100%*cos(asin(50/var(--c)))),#0000 calc(100% - 1px),#000);
-        clip-path: ellipse(calc(var(--c)*1%) 100% at bottom);
+        height: 100%;
+        align-items: center;
+
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        gap: 20px;
+
+        border-radius: 50px 0px 0px 50px;
+        background: #dcdcddaf;
+        box-shadow: 0 0px 20px 10px #DCDCDD;
+    }
+    fieldset {
+        border: none;
+    }
+    #type {
+        display: flex;
+        flex-flow: column;
+        width: 90%;
+        align-items: center;
+    }
+    #type  > #select {
+        flex-flow: row;
+    }
+    #met {
+        display: grid;
+        width: 90%;
+        grid-template-columns: 1fr;
+        row-gap: 10px;
+        justify-content: center;
+        justify-items: center;
+        align-content: center;
+    }
+    #met h3,
+    #type h3 {
+        grid-column: 1 / 4;
+        text-align: center;
+        font-size: 26px;
+        font-family: 'IMEnglish';
+        font-weight: 900;
+    }
+    #select {
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        flex-flow: column;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        max-width: 300px;
     }
 
 </style>
