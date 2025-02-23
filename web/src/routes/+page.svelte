@@ -17,9 +17,6 @@
     <meta name="description" content="Atlas kompetencji to narzędzie do ewaluacji umiejętności i kompetencji instruktorów ZHR" />
 </svelte:head>
 
-<div class="back">
-    <img class="map" src="map.jpg" alt="Map not found"/>
-</div>
 
 <main>
 
@@ -57,67 +54,7 @@
 </main>
 
 
-
-<div class="header">
-    <div class=logo-circle>
-        <img src="ZHR_Logo.png" alt="ZHR" class="logo-zhr"/>
-    </div>
-</div>
-
-
 <style>
-    .back{
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        background: #DCDCDD;
-        width: 100vw;
-        height: 100vh;
-    }
-    .map {
-        position: fixed;
-        scale: 1.1;
-        object-fit: cover;
-        top: 0px;
-        left: 50%;
-        min-width: 100%;
-        min-height: 100vh;
-        transform: translate(-45.5%, 0);
-        overflow: hidden;
-        opacity: 0.8;
-        filter: invert(0.1);
-    }
-    /* .octagon {
-      width: 100px;
-      height: 100px;
-      background: red;
-      position: relative;
-      top:50%;
-    }
-    .octagon:before {
-      content: "";
-      width: 100px;
-      height: 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      border-bottom: 29px solid red;
-      border-left: 29px solid #eee;
-      border-right: 29px solid #eee;
-    }
-    .octagon:after {
-      content: "";
-      width: 100px;
-      height: 0;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      border-top: 29px solid red;
-      border-left: 29px solid #eee;
-      border-right: 29px solid #eee;
-    } */
-
-
     main {
         position: absolute;
         left: 0px;
@@ -128,30 +65,6 @@
         grid-template-columns: 1fr 1fr;
         align-items: center;
 
-    }
-
-    .header{
-        position:fixed;
-        top:0;
-        left:0;
-        width: 100%;
-    }
-    .logo-circle {
-        width: 150px;
-        height: 150px;
-        top: -20px;
-        left: -30px;
-        position: relative;
-        background: #717D64;
-        opacity: 1;
-        border-radius: 0% 82% 60% 140% / 88% 97% 80% 60% ;
-    }
-    .logo-zhr {
-        width: 80px;
-        position: relative;
-        top: 55%;
-        left: 60%;
-        transform: translate(-50%, -50%);
     }
 
 
@@ -230,7 +143,7 @@
         gap: 20px;
 
         border-radius: 50px 0px 0px 50px;
-        background: #dcdcddcf;
+        background: #dcdcddaf;
         box-shadow: 0 0px 20px 10px #DCDCDD;
     }
     fieldset {
