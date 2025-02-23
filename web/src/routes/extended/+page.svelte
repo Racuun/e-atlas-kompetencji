@@ -13,7 +13,7 @@
     {#await data.returnData}
         <h1>LOADING...</h1>
     {:then data}
-        <form class="quest-wrap">
+        <form class="quest-wrap" method="POST" action="/result?/analyze">
             {#each data as question}
             {@const _ID = question.kID + '/' + question.aID + '/' + question.dID + '/' + question.level + '/' + question.negative}
             <div class="question">
