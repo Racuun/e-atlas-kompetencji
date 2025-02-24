@@ -40,9 +40,9 @@ services:
       - 54020:3100
     environment:
       - PORT=3100
-      - DB_PROVIDER=postgresql
-      - DB_URL=postgres://root:secret@db:5432/keystone
-      - DB_SHADOW_URL=postgres://shadow:secret-shadow@db:5432/keystone
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_URL=postgres://root:secret@db:5432/keystone
+      - DATABASE_SHADOW_URL=postgres://shadow:secret-shadow@db:5432/keystone
     volumes:
       - type: volume
         source: atlas-db
