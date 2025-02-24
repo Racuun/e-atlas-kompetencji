@@ -46,8 +46,8 @@ export const load: PageServerLoad = async ({request, fetch, cookies}) => {
 
     /* GET DATA FROM QUESTIONARE */
 
-    let KomData: { [id: string]: {value: number, n: number}};
-    let AspData: { [id: string]: {kID:string, value: number, n: number}};
+    let KomData: { [id: string]: number};
+    let AspData: { [id: string]: {kID:string, level: number}};
 
     let formData = null;
     try {
@@ -62,13 +62,15 @@ export const load: PageServerLoad = async ({request, fetch, cookies}) => {
         const keys = [...data.keys()];
         const values = [...data.values()];
 
-        let answ: {q: Question, v: number}[] = [];
+        let answ: {question: Question, score: number}[] = [];
         for(let i=0; i < keys.length; i++) {
             answ.push({
-                q: dstrQuestion(keys[i]),
-                v: parseInt(values[i] as string)
+                question: dstrQuestion(keys[i]),
+                score: parseInt(values[i] as string)
             })
         }
+
+        console.log(JSON.stringify(answ));
 
         const analyzedData = await analyze(answ);
         KomData = analyzedData.kompetencje;

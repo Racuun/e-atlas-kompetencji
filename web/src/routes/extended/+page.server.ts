@@ -56,7 +56,7 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
                     dID: value.id as string,
                     description: value.opis as string,
                     level: value.poziom as number,
-                    negative: (value.negatywna === 'negative' ? false : true)
+                    negative: (value.negatywna === 'negative' ? true : false)
                 } as Question
             })
 

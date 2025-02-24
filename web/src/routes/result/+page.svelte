@@ -34,7 +34,7 @@
         labels: Object.values(returnData.kom).map((value) => {return value.name as string}),
         datasets: [{
             label: 'Twój poziom kompetencji',
-            data: Object.keys(returnData.kom).map((key) => {return returnData.KomData[key].value as number}),
+            data: Object.keys(returnData.kom).map((key) => {return returnData.KomData[key] as number}),
             borderWidth: 3
         }]
     }
@@ -54,7 +54,7 @@
         <h2>Kompetencje</h2>
         {#each Object.keys(returnData.KomData) as key}
             <div class="wrap">
-                <Bar max={9.0} value={parseFloat(returnData.KomData[key].value)} name={returnData.kom[key].name}></Bar>
+                <Bar max={9.0} value={parseFloat(returnData.KomData[key])} name={returnData.kom[key].name}></Bar>
             </div>
         {/each}
     </section>
@@ -64,7 +64,7 @@
         <div class="grid">
             {#each Object.keys(returnData.AspData) as key}
             <div class="wrap">
-                <Bar max={9.0} value={parseFloat(returnData.AspData[key].value)} name={returnData.asp[key].name}></Bar>
+                <Bar max={9.0} value={parseFloat(returnData.AspData[key].level)} name={returnData.asp[key].name}></Bar>
             </div>
             {/each}
         </div>
