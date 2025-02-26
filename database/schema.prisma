@@ -20,33 +20,40 @@ model User {
 }
 
 model Definicja {
-  id                    String   @id @default(cuid())
-  opis                  String   @default("")
-  poziom                Int?
-  negatywna             Boolean  @default(false)
-  aspekt                Aspekt?  @relation("Definicja_aspekt", fields: [aspektId], references: [id])
-  aspektId              String?  @map("aspekt")
-  from_Aspekt_definicje Aspekt[] @relation("Aspekt_definicje")
+  id           String                 @id @default(cuid())
+  opis         String                 @default("")
+  poziom       Int
+  negatywna    DefinicjaNegatywnaType @default(positive)
+  aspekt       Aspekt?                @relation("Definicja_aspekt", fields: [aspektId], references: [id])
+  aspektId     String?                @map("aspekt")
+  aktualizacja DateTime?              @default(now()) @updatedAt
 
   @@index([aspektId])
 }
 
 model Aspekt {
-  id                       String        @id @default(cuid())
-  nazwa                    String        @default("")
-  definicje                Definicja[]   @relation("Aspekt_definicje")
-  kompetencja              Kompetencja?  @relation("Aspekt_kompetencja", fields: [kompetencjaId], references: [id])
-  kompetencjaId            String?       @map("kompetencja")
-  from_Definicja_aspekt    Definicja[]   @relation("Definicja_aspekt")
-  from_Kompetencja_aspekty Kompetencja[] @relation("Kompetencja_aspekty")
+  id            String       @id @default(cuid())
+  nazwa         String       @default("")
+  definicje     Definicja[]  @relation("Definicja_aspekt")
+  kompetencja   Kompetencja? @relation("Aspekt_kompetencja", fields: [kompetencjaId], references: [id])
+  kompetencjaId String?      @map("kompetencja")
 
   @@index([kompetencjaId])
 }
 
 model Kompetencja {
-  id                      String   @id @default(cuid())
-  nazwa                   String   @default("")
-  metodyka                String?  @default("N/A")
-  aspekty                 Aspekt[] @relation("Kompetencja_aspekty")
-  from_Aspekt_kompetencja Aspekt[] @relation("Aspekt_kompetencja")
+  id             String   @id @default(cuid())
+  nazwa          String   @default("")
+  metodyka       String?  @default("N/A")
+  aspekty        Aspekt[] @relation("Aspekt_kompetencja")
+  logo_id        String?
+  logo_filesize  Int?
+  logo_width     Int?
+  logo_height    Int?
+  logo_extension String?
+}
+
+enum DefinicjaNegatywnaType {
+  negative
+  positive
 }
