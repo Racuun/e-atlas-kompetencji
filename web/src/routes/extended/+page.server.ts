@@ -47,8 +47,6 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 
             data = await request.json();
 
-            console.log("Recieved data: " + JSON.stringify(data))
-
             retData = Array.from(data.data.definicje).map((value: any) => {
                 return {
                     kID: value.aspekt.kompetencja.id as string,
@@ -59,8 +57,6 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
                     negative: (value.negatywna === 'negative' ? true : false)
                 } as Question
             })
-
-            console.log("Data: " + JSON.stringify(retData));
 
 
 
