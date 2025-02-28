@@ -123,7 +123,7 @@ export const lists = {
       listView: {
         defaultFieldMode: ({ session, context }) => 'read',
         initialColumns: ['opis', 'poziom'],
-        initialSort: { field: 'nazwa', direction: 'ASC' },
+        initialSort: { field: 'opis', direction: 'ASC' },
         pageSize: 50,
       },
 
